@@ -18,6 +18,9 @@ public class OrderEventProducer {
     @Value("${rabbitmq.order.routing.key}")
     private String orderRoutingKey;
 
+    @Value("${rabbitmq.queue.email.routing.key}")
+    private String emailRoutingKey;
+
     private final RabbitTemplate rabbitTemplate;
 
     public OrderEventProducer(RabbitTemplate rabbitTemplate) {
@@ -26,7 +29,12 @@ public class OrderEventProducer {
 
     public void produceOrderEvent(OrderEvent orderEvent) {
         LOGGER.info(String.format("Order Event produced : %s", orderEvent));
+
+        //send message to stock microservice
         rabbitTemplate.convertAndSend(orderExchangeName, orderRoutingKey, orderEvent);
+
+        //send message to email microservice
+        rabbitTemplate.convertAndSend(orderExchangeName, emailRoutingKey, orderEvent);
     }
 
 }
