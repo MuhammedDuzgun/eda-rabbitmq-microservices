@@ -17,7 +17,7 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.queue.order.name}")
     public String orderQueue;
 
-    @Value("${rabbitmq.exchange.name}")
+    @Value("${rabbitmq.order.exchange.name}")
     public String exchangeName;
 
     @Value("${rabbitmq.order.routing.key}")
